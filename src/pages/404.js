@@ -1,14 +1,32 @@
-import * as React from "react"
+import React from "react"
+import { graphql } from "gatsby"
+import { Container, Content, FeatureImage } from "../components"
+import { H1 } from "../elements/index"
 
-import Layout from "../components/layout"
-import Seo from "../components/seo"
+const NotFound = ({ data }) => {
+  const featureImage = data.imageSharp.fixed
 
-const NotFoundPage = () => (
-  <Layout>
-    <Seo title="404: Not found" />
-    <h1>404: Not Found</h1>
-    <p>You just hit a route that doesn&#39;t exist... the sadness.</p>
-  </Layout>
-)
+  return (
+    <Container>
+      <FeatureImage fixed={featureImage} />
 
-export default NotFoundPage
+      <Content>
+        <H1 textAligh="center" margin="0 0 1rem 0">
+          Uh-oh... What you're looking for couldn't be found
+        </H1>
+      </Content>
+    </Container>
+  )
+}
+
+export default NotFound
+
+export const notFoundQuery = graphql`
+  query {
+    imageSharp(fixed: { originalName: { eq: "sad-cat.jpg" } }) {
+      fixed {
+        ...GatsbyImageSharpFixed
+      }
+    }
+  }
+`
